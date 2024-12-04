@@ -9,19 +9,12 @@ This program is based on the [OpenCOOD.](https://mobility-lab.seas.ucla.edu/opv2
 </p>
 HyComm consistently achieves superior performance-bandwidth trade-off on both the simulated and real-world datasets, outperforming Where2comm with 2,006/1,317 ¡Á less communication cost on DAIR-V2X/OPV2V for AP50/70
 
-## Data Downloading
-All the data can be downloaded from [google drive](https://drive.google.com/drive/folders/1dkDeHlwOVbmgXcDazZvO6TFEZ6V_7WUu). If you have a good internet, you can directly
-download the complete large zip file such as `train.zip`. In case you suffer from downloading large fiels, we also split each data set into small chunks, which can be found 
-in the directory ending with `_chunks`, such as `train_chunks`. After downloading, please run the following command to each set to merge those chunks together:
-```python
-cat train.zip.parta* > train.zip
-unzip train.zip
-```
 
 ## Installation
-Please refer to [data introduction](https://opencood.readthedocs.io/en/latest/md_files/data_intro.html)
-and [installation](https://opencood.readthedocs.io/en/latest/md_files/installation.html) guide to prepare
-data and install OpenCOOD. To see more details of OPV2V data, please check [the website.](https://mobility-lab.seas.ucla.edu/opv2v/)
+Please refer to [data introduction](https://opencood.readthedocs.io/en/latest/md_files/data_intro.html)and [installation](https://opencood.readthedocs.io/en/latest/md_files/installation.html) guide to preparedata and install OpenCOOD. 
+### Datasets
+To see more details of OPV2V data, please check [the website.](https://mobility-lab.seas.ucla.edu/opv2v/)
+To see more details of DAIR-V2X data, please check [the website.](checkhttps://thudair.baai.ac.cn/index)
 
 ## Quick Start
 ### Data sequence visualization
