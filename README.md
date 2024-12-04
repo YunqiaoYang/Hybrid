@@ -55,15 +55,15 @@ Before you run the following command, first make sure the `validation_dir` in co
 refers to the testing dataset path, e.g. `opv2v_data_dumping/test`.
 
 ```python
-python opencood/tools/inference.py --model_dir ${CHECKPOINT_FOLDER} --fusion_method ${FUSION_STRATEGY} [--show_vis] [--show_sequence]
+python opencood/tools/inference.py --model_dir ${CHECKPOINT_FOLDER} --fusion_method ${FUSION_STRATEGY} [--sample_method] [--store_boxes] [--is_hybrid] [--pose_err]
 ```
 Arguments Explanation:
 - `model_dir`: the path to your saved model.
 - `fusion_method`: indicate the fusion strategy, currently support 'early', 'late', and 'intermediate'.
-- `show_vis`: whether to visualize the detection overlay with point cloud.
-- `show_sequence` : the detection results will visualized in a video stream. It can NOT be set with `show_vis` at the same time.
-
-The evaluation results  will be dumped in the model directory.
+- `sample_method`: the method to downsample the point cloud
+- `store_boxes` : store detection boxes and gt boxes.
+- `is_hybrid` : use hybrid method if implemented. (Tips: you have to first save boxes once for hybrid method)
+- `pose_err` : add pose error when inference
 
 
 ## Tutorials
