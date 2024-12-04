@@ -1,0 +1,210 @@
+comm_range: 100
+data_augment:
+- ALONG_AXIS_LIST:
+  - x
+  NAME: random_world_flip
+- NAME: random_world_rotation
+  WORLD_ROT_ANGLE:
+  - -0.78539816
+  - 0.78539816
+- NAME: random_world_scaling
+  WORLD_SCALE_RANGE:
+  - 0.95
+  - 1.05
+fusion:
+  args:
+    proj_first: false
+  core_method: intermediate
+  dataset: v2xsim
+  multi_sweep: False
+  num_sweep_frames: 2
+input_source:
+- lidar
+label_type: lidar
+loss:
+  args:
+    cls:
+      alpha: 0.25
+      gamma: 2.0
+      type: SigmoidFocalLoss
+      weight: 2.0
+    dir:
+      args: &id001
+        anchor_yaw: &id006
+        - 0
+        - 90
+        dir_offset: 0.7853
+        num_bins: 2
+      type: WeightedSoftmaxClassificationLoss
+      weight: 0.2
+    pos_cls_weight: 2.0
+    reg:
+      codewise: true
+      sigma: 3.0
+      type: WeightedSmoothL1Loss
+      weight: 2.0
+  core_method: point_pillar_loss
+lr_scheduler:
+  core_method: multistep
+  gamma: 0.1
+  step_size:
+  - 10
+  - 15
+model:
+  args:
+    supervise_single: True
+    anchor_number: 2
+    base_bev_backbone:
+      resnet: True
+      layer_nums: &id002
+      - 3
+      - 4
+      - 5
+      layer_strides: &id003
+      - 2
+      - 2
+      - 2
+      num_filters:
+      - 64
+      - 128
+      - 256
+      num_upsample_filter:
+      - 128
+      - 128
+      - 128
+      upsample_strides:
+      - 1
+      - 2
+      - 4
+      voxel_size:
+      - 0.4
+      - 0.4
+      - 5
+    dir_args: *id001
+    skip_scale: 5
+    fusion_args:
+      agg_operator:
+        feature_dim: 384
+        mode: MAX
+      communication:
+        thre: 0.01
+      downsample_rate: 1
+      dropout_rate: 0
+      in_channels: 384
+      layer_nums: *id002
+      multi_scale: true
+      n_head: 8
+      num_filters: *id003
+      only_attention: true
+      voxel_size: &id004
+      - 0.4
+      - 0.4
+      - 5
+    lidar_range: &id005
+    - -32
+    - -32
+    - -3
+    - 32
+    - 32
+    - 2
+    pillar_vfe:
+      num_filters:
+      - 64
+      use_absolute_xyz: true
+      use_norm: true
+      with_distance: false
+    point_pillar_scatter:
+      grid_size: !!python/object/apply:numpy.core.multiarray._reconstruct
+        args:
+        - !!python/name:numpy.ndarray ''
+        - !!python/tuple
+          - 0
+        - !!binary |
+          Yg==
+        state: !!python/tuple
+        - 1
+        - !!python/tuple
+          - 3
+        - !!python/object/apply:numpy.dtype
+          args:
+          - i8
+          - false
+          - true
+          state: !!python/tuple
+          - 3
+          - <
+          - null
+          - null
+          - null
+          - -1
+          - -1
+          - 0
+        - false
+        - !!binary |
+          wAIAAAAAAADIAAAAAAAAAAEAAAAAAAAA
+      num_features: 64
+    shrink_header:
+      dim:
+      - 256
+      input_dim: 384
+      kernal_size:
+      - 3
+      padding:
+      - 1
+      stride:
+      - 1
+    voxel_size: *id004
+  core_method: point_pillar_where2comm
+name: v2xsim_point_pillar_lidar_where2comm_ss
+noise_setting: !!python/object/apply:collections.OrderedDict
+- - - add_noise
+    - false
+optimizer:
+  args:
+    eps: 1.0e-10
+    weight_decay: 0.0001
+  core_method: Adam
+  lr: 0.002
+postprocess:
+  anchor_args:
+    D: 1
+    H: 200
+    W: 704
+    cav_lidar_range: *id005
+    feature_stride: 2
+    h: 1.56
+    l: 3.9
+    num: 2
+    r: *id006
+    vd: 5
+    vh: 0.4
+    vw: 0.4
+    w: 1.6
+  core_method: VoxelPostprocessor
+  dir_args: *id001
+  gt_range: *id005
+  max_num: 100
+  nms_thresh: 0.15
+  order: hwl
+  target_args:
+    neg_threshold: 0.45
+    pos_threshold: 0.6
+    score_threshold: 0.2
+preprocess:
+  args:
+    max_points_per_voxel: 32
+    max_voxel_test: 70000
+    max_voxel_train: 32000
+    voxel_size: *id004
+  cav_lidar_range: *id005
+  core_method: SpVoxelPreprocessor
+root_dir: /GPFS/public/yhu/Co_Flow/dataset/v2xsim2_info_no_shuffle_agent/v2xsim_infos_train.pkl
+test_dir: /GPFS/public/yhu/Co_Flow/dataset/v2xsim2_info_no_shuffle_agent/v2xsim_infos_test.pkl
+train_params:
+  batch_size: 4
+  epoches: 30
+  eval_freq: 2
+  max_cav: 5
+  save_freq: 3
+validate_dir: /GPFS/public/yhu/Co_Flow/dataset/v2xsim2_info_no_shuffle_agent/v2xsim_infos_val.pkl
+yaml_parser: load_point_pillar_params
