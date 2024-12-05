@@ -14,7 +14,8 @@ HyComm consistently achieves superior performance-bandwidth trade-off on both th
 Please refer to [data introduction](https://opencood.readthedocs.io/en/latest/md_files/data_intro.html)and [installation](https://opencood.readthedocs.io/en/latest/md_files/installation.html) guide to preparedata and install OpenCOOD. 
 ### Datasets
 To see more details of OPV2V data, please check [the website.](https://mobility-lab.seas.ucla.edu/opv2v/)
-To see more details of DAIR-V2X data, please check [the website.](checkhttps://thudair.baai.ac.cn/index)
+
+To see more details of DAIR-V2X data, please check [the website.](https://thudair.baai.ac.cn/index)
 
 ## Quick Start
 ### Data sequence visualization
